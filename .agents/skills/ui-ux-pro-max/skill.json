@@ -1,0 +1,12 @@
+{
+    "id": "ui-ux-pro-max",
+    "name": "UI/UX Pro Max",
+    "version": "1.0.0",
+    "description": "Skill para geração de interfaces consistentes de SaaS e Marketplaces baseado em Design Tokens e WCAG.",
+    "entry": "prompt.md",
+    "frameworks": [
+        "react",
+        "tailwind",
+        "nextjs"
+    ]
+}

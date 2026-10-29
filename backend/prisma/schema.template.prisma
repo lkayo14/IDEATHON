@@ -1,0 +1,91 @@
+// Prisma Schema - Supports both SQLite (local zero-dependency) and PostgreSQL (Railway)
+datasource db {
+  provider = "PROVIDER_PLACEHOLDER"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Vendor {
+  id            String         @id @default(uuid())
+  phone         String         @unique
+  name          String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  stores        Store[]
+  conversations Conversation[]
+}
+
+model Store {
+  id                  String         @id @default(uuid())
+  vendorId            String
+  vendor              Vendor         @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  name                String
+  slug                String         @unique
+  description         String?
+  segment             String?
+  logoUrl             String?
+  phone               String?
+  whatsapp            String?
+  email               String?
+  address             String?
+  instagram           String?
+  businessHours       String?
+  paymentMethods      String         @default("Pix, Dinheiro, Cartão de Débito, Cartão de Crédito")
+  paymentInstructions String?
+  deliveryInfo        String?        @default("Retirada no local e entrega a combinar")
+  status              String         @default("ACTIVE") // ACTIVE, DRAFT, PAUSED
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  products            Product[]
+  conversations       Conversation[]
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  storeId     String
+  store       Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  price       Float
+  stock       Int      @default(0)
+  category    String?  @default("Geral")
+  mainImage   String?
+  status      String   @default("PUBLISHED") // DRAFT, PUBLISHED, PAUSED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Conversation {
+  id            String    @id @default(uuid())
+  vendorPhone   String
+  vendorId      String?
+  vendor        Vendor?   @relation(fields: [vendorId], references: [id], onDelete: SetNull)
+  storeId       String?
+  store         Store?    @relation(fields: [storeId], references: [id], onDelete: SetNull)
+  currentIntent String?   @default("IDLE") // IDLE, STORE_SETUP, PRODUCT_CREATE, PRODUCT_EDIT, STOCK_UPDATE
+  pendingAction String?   // JSON object for drafts awaiting confirmation
+  lastMessageAt DateTime  @default(now())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  messages      Message[]
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         String       // "USER", "ASSISTANT", "SYSTEM"
+  content        String
+  mediaUrl       String?
+  mediaType      String?      // "image", "audio", "document"
+  rawPayload     String?
+  createdAt      DateTime     @default(now())
+}
+
+model ProcessedWebhookEvent {
+  id          String   @id
+  processedAt DateTime @default(now())
+}
