@@ -12,8 +12,6 @@ Permite que qualquer lojista crie, configure e administre sua loja inteira conve
 - [Estado das Integrações (Transparência de Credenciais)](#estado-das-integrações)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Como Executar Localmente](#como-executar-localmente)
-- [Roteiro de Demonstração (Demoday - 3 a 5 min)](#roteiro-de-demonstração)
-- [Deploy no Railway](#deploy-no-railway)
 - [Configuração de Credenciais Reais](#configuração-de-credenciais-reais)
 - [Testes Automatizados](#testes-automatizados)
 
@@ -117,60 +115,6 @@ npm --prefix frontend run dev
 ```
 
 Abra no navegador: **`http://localhost:5173/`**
-
----
-
-## 🎬 Roteiro de Demonstração (Demoday - 3 a 5 min)
-
-O aplicativo conta com uma visualização dividida (*Split View*): o simulador de WhatsApp à esquerda e o catálogo em tempo real à direita.
-
-### Passo 1: Apresentação da Arquitetura (30s)
-1. Mostre a barra superior de status com as indicações transparentes: IA Gemini, WhatsApp e Banco.
-2. Explique que o WhatsApp é a **única interface necessária para o vendedor administrar sua empresa**.
-
-### Passo 2: Alteração de Preço em Tempo Real (45s)
-1. No WhatsApp Simulator, clique no atalho **`💰 Mudar Preço R$ 64,90`** (ou digite: *"Mude o preço da camiseta preta para R$ 64,90"*).
-2. Clique em **Enviar**.
-3. Veja o assistente responder com a confirmação da alteração.
-4. **Observe o catálogo web atualizar instantaneamente o preço do produto para R$ 64,90.**
-
-### Passo 3: Movimentação de Estoque Inteligente (45s)
-1. Digite no WhatsApp: *"Chegaram mais 10 unidades do tênis"* e envie.
-2. Veja o assistente registrar a entrada incremental de estoque.
-3. Em seguida, digite: *"Vendi 3 unidades da camiseta"* e envie.
-4. Veja o assistente debitar as unidades e alertar o novo saldo.
-
-### Passo 4: Cadastro de Produto com Imagem e Confirmação (1 min)
-1. No simulador, clique no atalho da **Camiseta Preta** ou **Vestido Primavera** (ou anexe uma imagem própria com o clipe/botão de câmera).
-2. O assistente analisa a imagem e o texto, monta um resumo do anúncio e solicita a confirmação do lojista:
-   - *Nome, Preço, Estoque, Categoria e Foto*.
-3. Clique no botão verde **`Confirmar`** ou digite *"confirmar"*.
-4. O anúncio é publicado e aparece no catálogo da loja imediatamente com badge de status.
-
-### Passo 5: Consultas e Regras de Negócio (45s)
-1. Digite: *"Quais produtos estão sem estoque?"*.
-2. O assistente listará a Bolsa em Couro (0 un.) e orientará como repor.
-3. Digite: *"Pause o anúncio do vestido"*.
-4. Veja o status do produto mudar para "Pausado" (amarelo) no catálogo.
-5. Clique em qualquer produto da vitrine para abrir o modal de detalhes com o botão *"Pedir pelo WhatsApp"*.
-
----
-
-## ☁️ Deploy no Railway
-
-O projeto inclui `Dockerfile` multi-stage otimizado e `railway.json`.
-
-1. Crie um novo projeto no [Railway](https://railway.app).
-2. Conecte este repositório do GitHub.
-3. Adicione um plugin **PostgreSQL** no Railway.
-4. Defina as variáveis de ambiente no painel do Railway:
-   - `DATABASE_URL` (injetada automaticamente pelo PostgreSQL do Railway)
-   - `GEMINI_API_KEY` (sua chave da Gemini API)
-   - `GEMINI_MODEL` = `gemini-2.5-flash`
-   - `WHATSAPP_TOKEN` (seu token da Meta)
-   - `WHATSAPP_PHONE_NUMBER_ID` (seu Phone ID da Meta)
-   - `WHATSAPP_VERIFY_TOKEN` = `seu_token_secreto`
-5. O Railway executará o build automaticamente e subirá a aplicação.
 
 ---
 
