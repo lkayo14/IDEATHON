@@ -204,7 +204,7 @@ export const WhatsAppSimulator: React.FC<WhatsAppSimulatorProps> = ({
 
   const handleStartNewVendorSession = () => {
     const randomSuffix = Math.floor(1000000 + Math.random() * 9000000);
-    const newPhone = `55119${randomSuffix}`;
+    const newPhone = `55859${randomSuffix}`;
     onSelectVendorPhone?.(newPhone, undefined);
     setShowDemodayDrawer(false);
   };

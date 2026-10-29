@@ -17,6 +17,7 @@ export const marketplaceTools = [
         whatsapp: { type: 'STRING', description: 'Número do WhatsApp comercial' },
         email: { type: 'STRING', description: 'E-mail para contato' },
         address: { type: 'STRING', description: 'Endereço físico ou cidade/área de atendimento' },
+        region: { type: 'STRING', description: 'Região, comunidade, bairro ou localidade onde o empreendedor atua (ex: Messejana, Benfica, Jangurussu, Conjunto Palmeiras, Aerolândia, Pecém)' },
         instagram: { type: 'STRING', description: 'Perfil ou link do Instagram (ex: @modadaana)' },
         businessHours: { type: 'STRING', description: 'Horário de funcionamento (ex: Seg a Sex das 08h às 18h)' },
         paymentMethods: { type: 'STRING', description: 'Formas de pagamento aceitas (ex: Pix, Cartão, Dinheiro)' },

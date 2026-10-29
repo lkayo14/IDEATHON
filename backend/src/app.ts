@@ -201,7 +201,7 @@ export async function buildApp() {
   // Histórico do chat do simulador
   app.get('/api/simulator/history', async (req, reply) => {
     const query = req.query as { phone?: string };
-    const phone = query.phone || '5511999998888';
+    const phone = query.phone || '5585999998888';
     const conversation = await conversationService.getOrCreateConversation(phone);
     const messages = await conversationService.getRecentMessages(conversation.id, 50);
     const store = await storeService.getStoreByVendorPhone(phone);
@@ -219,7 +219,7 @@ export async function buildApp() {
   // Reset do simulador para nova apresentação
   app.post('/api/simulator/reset', async (req, reply) => {
     const query = req.query as { phone?: string };
-    const phone = query.phone || '5511999998888';
+    const phone = query.phone || '5585999998888';
     const cleanPhone = phone.replace(/\D/g, '');
 
     const conversation = await prisma.conversation.findFirst({
@@ -245,6 +245,11 @@ export async function buildApp() {
   // Listar segmentos únicos de lojas
   app.get('/api/stores/segments', async () => {
     return storeService.listSegments();
+  });
+
+  // Listar regiões / comunidades únicas de lojas
+  app.get('/api/stores/regions', async () => {
+    return storeService.listRegions();
   });
 
   // Obter loja por slug ou ID
@@ -286,6 +291,11 @@ export async function buildApp() {
       },
       products,
     };
+  });
+
+  // Produtos em destaque para o feed inicial do marketplace (estilo OLX)
+  app.get('/api/products/featured', async () => {
+    return productService.listFeaturedProducts();
   });
 
   // Detalhe de um produto individual

@@ -17,7 +17,7 @@ const INITIAL_PRESETS: VendorPreset[] = [
   {
     id: '1',
     name: 'Ana Silva',
-    phone: '5511999998888',
+    phone: '5585999998888',
     storeName: 'Moda da Ana',
     storeSlug: 'moda-da-ana',
     segment: 'Moda',
@@ -25,7 +25,7 @@ const INITIAL_PRESETS: VendorPreset[] = [
   {
     id: '2',
     name: 'Dona Francisca',
-    phone: '5511988887777',
+    phone: '5585988887777',
     storeName: 'Doces da Vovó',
     storeSlug: 'doces-da-vovo',
     segment: 'Doces',
@@ -33,10 +33,34 @@ const INITIAL_PRESETS: VendorPreset[] = [
   {
     id: '3',
     name: 'Carlos Eduardo',
-    phone: '5511977776666',
+    phone: '5585977776666',
     storeName: 'Empório do Bairro',
     storeSlug: 'emporio-do-bairro',
     segment: 'Empório',
+  },
+  {
+    id: '4',
+    name: 'Severino Gomes',
+    phone: '5585966665555',
+    storeName: 'Raízes da Comunidade',
+    storeSlug: 'raizes-da-comunidade',
+    segment: 'Artesanato',
+  },
+  {
+    id: '5',
+    name: 'Raimundo Nonato',
+    phone: '5585955554444',
+    storeName: 'Sabor da Aerolândia',
+    storeSlug: 'sabor-da-aerolandia',
+    segment: 'Gastronomia',
+  },
+  {
+    id: '6',
+    name: 'Maria das Graças',
+    phone: '5585944443333',
+    storeName: 'Artes do Pecém',
+    storeSlug: 'artes-do-pecem',
+    segment: 'Renda & Praia',
   },
 ];
 
@@ -56,7 +80,7 @@ export const App: React.FC = () => {
   });
 
   const [desktopDeviceMode, setDesktopDeviceMode] = useState<'phone' | 'full'>('phone');
-  const [vendorPhone, setVendorPhone] = useState('5511999998888');
+  const [vendorPhone, setVendorPhone] = useState('5585999998888');
   const [selectedStoreSlug, setSelectedStoreSlug] = useState<string | null>(null);
   const [stores, setStores] = useState<CommunityStore[]>([]);
   const [isLoadingStores, setIsLoadingStores] = useState(true);
@@ -185,53 +209,75 @@ export const App: React.FC = () => {
       {/* Top Navbar (Oculto no celular se estiver dentro do WhatsApp) */}
       {!isMobileWhatsAppFullscreen && (
         <header className="top-navbar" role="banner">
-          <div className="brand-wrapper">
+          <div
+            className="brand-wrapper"
+            onClick={() => setSelectedStoreSlug(null)}
+            style={{ cursor: 'pointer' }}
+            title="Voltar à página inicial do marketplace"
+          >
             <div className="brand-icon" aria-hidden="true">
-              <ShoppingCart size={22} />
+              <ShoppingCart size={20} />
             </div>
-            <div>
-              <div className="brand-title">
-                <span>ZapMarketplace AI</span>
-                <span className="brand-badge">Demoday Comunitário</span>
-              </div>
+            <div className="brand-title">
+              <span className="brand-zap-text">ZAP</span>
+              <span className="brand-marketplace-text">MARKETPLACE</span>
+              <span className="brand-ai-badge">AI</span>
             </div>
           </div>
 
-          {/* View Switcher Tabs */}
-          <nav className="view-tabs" role="tablist" aria-label="Modo de visualização da área de trabalho">
-            {!isMobile && (
+          <div className="navbar-actions-group">
+            {/* View Switcher Tabs */}
+            <nav className="view-tabs" role="tablist" aria-label="Modo de visualização da área de trabalho">
+              {!isMobile && (
+                <button
+                  role="tab"
+                  aria-selected={activeTab === 'split'}
+                  className={`tab-btn ${activeTab === 'split' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('split')}
+                  title="Ver simulador e marketplace lado a lado"
+                >
+                  <Columns size={15} aria-hidden="true" />
+                  <span>Dividida</span>
+                </button>
+              )}
               <button
                 role="tab"
-                aria-selected={activeTab === 'split'}
-                className={`tab-btn ${activeTab === 'split' ? 'active' : ''}`}
-                onClick={() => setActiveTab('split')}
-                title="Ver simulador e marketplace lado a lado"
+                aria-selected={activeTab === 'simulator'}
+                className={`tab-btn ${activeTab === 'simulator' ? 'active' : ''}`}
+                onClick={() => setActiveTab('simulator')}
+                title="Apenas simulador de WhatsApp"
               >
-                <Columns size={16} aria-hidden="true" />
-                <span>Dividida</span>
+                <Smartphone size={15} aria-hidden="true" />
+                <span>WhatsApp</span>
               </button>
-            )}
+              <button
+                role="tab"
+                aria-selected={activeTab === 'storefront'}
+                className={`tab-btn ${activeTab === 'storefront' ? 'active' : ''}`}
+                onClick={() => setActiveTab('storefront')}
+                title="Apenas marketplace comunitário e vitrine"
+              >
+                <StoreIcon size={15} aria-hidden="true" />
+                <span>Marketplace</span>
+              </button>
+            </nav>
+
             <button
-              role="tab"
-              aria-selected={activeTab === 'simulator'}
-              className={`tab-btn ${activeTab === 'simulator' ? 'active' : ''}`}
-              onClick={() => setActiveTab('simulator')}
-              title="Apenas simulador de WhatsApp"
+              type="button"
+              className="navbar-cta-announce-btn"
+              onClick={() => {
+                const newPhone = `55859${Math.floor(1000000 + Math.random() * 9000000)}`;
+                handleSelectVendorPhone(newPhone);
+                if (isMobile) {
+                  setActiveTab('simulator');
+                }
+              }}
+              title="Criar anúncio ou cadastrar loja pelo WhatsApp"
             >
-              <Smartphone size={16} aria-hidden="true" />
-              <span>WhatsApp</span>
+              <MessageCircle size={16} />
+              <span>Anunciar no WhatsApp</span>
             </button>
-            <button
-              role="tab"
-              aria-selected={activeTab === 'storefront'}
-              className={`tab-btn ${activeTab === 'storefront' ? 'active' : ''}`}
-              onClick={() => setActiveTab('storefront')}
-              title="Apenas marketplace comunitário e vitrine"
-            >
-              <StoreIcon size={16} aria-hidden="true" />
-              <span>Marketplace Comunitário</span>
-            </button>
-          </nav>
+          </div>
         </header>
       )}
 
@@ -329,7 +375,7 @@ export const App: React.FC = () => {
                 isLoading={isLoadingStores}
                 onSelectStore={(slug) => setSelectedStoreSlug(slug)}
                 onOpenNewStoreDemo={() => {
-                  const newPhone = `55119${Math.floor(1000000 + Math.random() * 9000000)}`;
+                  const newPhone = `55859${Math.floor(1000000 + Math.random() * 9000000)}`;
                   handleSelectVendorPhone(newPhone);
                   if (isMobile) {
                     setActiveTab('simulator');

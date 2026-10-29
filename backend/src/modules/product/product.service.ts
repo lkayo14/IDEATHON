@@ -405,6 +405,33 @@ export class ProductService {
   }
 
   /**
+   * Lista produtos recentes em destaque de todas as lojas para a home do marketplace
+   */
+  async listFeaturedProducts(limit = 12) {
+    return prisma.product.findMany({
+      where: {
+        status: 'PUBLISHED',
+        stock: { gt: 0 },
+        store: { status: 'ACTIVE' },
+      },
+      include: {
+        store: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            region: true,
+            address: true,
+            whatsapp: true,
+          },
+        },
+      },
+      orderBy: { updatedAt: 'desc' },
+      take: limit,
+    });
+  }
+
+  /**
    * Formata resumo do produto para envio via WhatsApp
    */
   formatProductSummary(product: any): string {

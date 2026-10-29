@@ -32,12 +32,14 @@ describe('Regras de Negócio e Serviços do Marketplace', () => {
       const store = await storeService.upsertStore(testPhone, {
         name: 'Boutique Elegance Teste',
         segment: 'Moda Feminina',
+        region: 'Benfica',
         paymentMethods: 'Pix, Cartão',
       });
 
       expect(store).toBeDefined();
       expect(store.name).toBe('Boutique Elegance Teste');
       expect(store.slug).toBe('boutique-elegance-teste');
+      expect(store.region).toBe('Benfica');
       createdStoreId = store.id;
     });
 
@@ -46,6 +48,13 @@ describe('Regras de Negócio e Serviços do Marketplace', () => {
       const summary = storeService.formatStoreSummary(store);
       expect(summary).toContain('Boutique Elegance Teste');
       expect(summary).toContain('Pix, Cartão');
+      expect(summary).toContain('Benfica');
+    });
+
+    it('deve listar regiões únicas disponíveis', async () => {
+      const regions = await storeService.listRegions();
+      expect(Array.isArray(regions)).toBe(true);
+      expect(regions).toContain('Benfica');
     });
   });
 

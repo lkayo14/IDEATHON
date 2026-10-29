@@ -24,6 +24,7 @@ interface StoreData {
   slug: string;
   description?: string;
   segment?: string;
+  region?: string;
   logoUrl?: string;
   phone?: string;
   whatsapp?: string;
@@ -229,11 +230,18 @@ export const Storefront: React.FC<StorefrontProps> = ({
                 </div>
               </div>
 
-              {store.segment && (
-                <div style={{ fontSize: '0.82rem', color: 'var(--accent-purple)', fontWeight: 700, marginBottom: '6px' }}>
-                  🏷️ {store.segment}
-                </div>
-              )}
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '6px' }}>
+                {store.segment && (
+                  <div style={{ fontSize: '0.82rem', color: 'var(--accent-purple)', fontWeight: 700 }}>
+                    🏷️ {store.segment}
+                  </div>
+                )}
+                {store.region && (
+                  <div style={{ fontSize: '0.82rem', color: '#38bdf8', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                    <MapPin size={12} /> {store.region}
+                  </div>
+                )}
+              </div>
 
               <p className="store-description-text">
                 {store.description || 'Catálogo e pedidos gerenciados em tempo real via inteligência artificial.'}

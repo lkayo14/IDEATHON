@@ -9,6 +9,7 @@ export interface StoreInput {
   whatsapp?: string;
   email?: string;
   address?: string;
+  region?: string;
   instagram?: string;
   businessHours?: string;
   paymentMethods?: string;
@@ -132,6 +133,7 @@ export class StoreService {
         whatsapp: data.whatsapp || vendorPhone,
         email: data.email,
         address: data.address,
+        region: data.region,
         instagram: data.instagram,
         businessHours: data.businessHours,
         paymentMethods: data.paymentMethods || 'Pix, Dinheiro, Cartão de Débito, Cartão de Crédito',
@@ -154,6 +156,7 @@ export class StoreService {
       store.instagram ? `📸 Instagram: ${store.instagram}` : null,
       store.businessHours ? `⏰ Horário: ${store.businessHours}` : null,
       store.address ? `📍 Endereço: ${store.address}` : null,
+      store.region ? `📍 Região / Comunidade: ${store.region}` : null,
       `💳 Pagamentos: ${store.paymentMethods || 'Pix, Dinheiro, Cartão'}`,
       `🚚 Entrega: ${store.deliveryInfo || 'Retirada ou combinar'}`,
       store.logoUrl ? `🖼️ Logo: configurada ✅` : `🖼️ Logo: pendente (você pode me enviar uma foto!)`,
@@ -187,6 +190,18 @@ export class StoreService {
       select: { segment: true },
     });
     const unique = Array.from(new Set(stores.map((s) => s.segment).filter(Boolean)));
+    return unique;
+  }
+
+  /**
+   * Lista as regiões / comunidades únicas de lojas ativas
+   */
+  async listRegions() {
+    const stores = await prisma.store.findMany({
+      where: { status: 'ACTIVE' },
+      select: { region: true },
+    });
+    const unique = Array.from(new Set(stores.map((s) => s.region).filter(Boolean))) as string[];
     return unique;
   }
 }

@@ -52,7 +52,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   };
 
   const subtotal = product.price * quantity;
-  const cleanWhatsapp = (storeWhatsapp || '5511999998888').replace(/\D/g, '');
+  const cleanWhatsapp = (storeWhatsapp || '5585999998888').replace(/\D/g, '');
 
   const buyMessage = encodeURIComponent(
     `Olá! Gostaria de fazer um pedido na loja "${storeName || 'Online'}":\n` +

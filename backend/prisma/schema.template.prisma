@@ -31,6 +31,7 @@ model Store {
   whatsapp            String?
   email               String?
   address             String?
+  region              String? // Região / Comunidade / Localidade (ex: "Jardins", "Pinheiros", "Comunidade de Paraisópolis")
   instagram           String?
   businessHours       String?
   paymentMethods      String         @default("Pix, Dinheiro, Cartão de Débito, Cartão de Crédito")
